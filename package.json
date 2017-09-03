@@ -1,0 +1,37 @@
+{
+  "name": "node-template",
+  "version": "1.0.0",
+  "description": "TODO",
+  "scripts": {
+    "//--------------------------------------- TEST ------------------------------------------------": "",
+    "test-start-backend": "test/start.sh",
+    "//-------------- 1st time deploy, you need use: npm run deploy-to-ENV -- setup --------------": "",
+    "test-deploy": "pm2 deploy test",
+    "//------------------------------------ OPERATION ---------------------------------------------": "",
+    "op-nginx-foo-start": "scripts/op-nginx.sh start --config=production-only/nginx/mechanic/config/foo-nginx.dev.json",
+    "op-nginx-foo-reload": "scripts/op-nginx.sh reload --config=production-only/nginx/mechanic/config/foo-nginx.dev.json",
+    "op-nginx-foo-upstream-to": "scripts/op-nginx.sh upstreamTo --config=production-only/nginx/mechanicoo-nginx.dev.json",
+    "op-nginx-bar-start": "scripts/op-nginx.sh start --config=production-only/nginx/mechanic/config/bar-nginx.dev.json",
+    "op-nginx-bar-reload": "scripts/op-nginx.sh reload --config=production-only/nginx/mechanic/config/bar-nginx.dev.json",
+    "op-nginx-bar-upstream-to": "scripts/op-nginx.sh upstreamTo --config=production-only/nginx/mechanic/config/bar-nginx.dev.json",
+    "op-seamless-update-be-ready": "scripts/op-seamless-update.sh prod readyForUpdate",
+    "op-seamless-update-start": "scripts/op-seamless-update.sh prod startUpdate",
+    "//------------------------------------ scripts END --------------------------------------------": ""
+  },
+  "//---------------------------------- DEPENDENCIES_DESC ------------------------------------------": "",
+  "// 所有 yqj- 开头的都是自定义Module": "",
+  "//-------------------------------- DEPENDENCIES_DESC END ----------------------------------------": "",
+  "//bluebird": "promise 框架",
+  "//lodash": "js utils",
+  "//nunjucks": "代码生成模板",
+  "dependencies": {
+    "bluebird": "3.4.7",
+    "lodash": "4.17.4",
+    "nunjucks": "3.0.0",
+    "pm2": "2.4.6",
+    "shelljs": "0.7.7"
+  },
+  "devDependencies": {
+    "prettier": "1.2.2"
+  }
+}

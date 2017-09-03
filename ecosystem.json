@@ -1,0 +1,125 @@
+{
+  "apps": [{
+    "name": "yqj-wit-work:5000",
+    "exec_mode": "fork_mode",
+    "cwd": ".",
+    "script": "server.js",
+    "node_args": "--expose-gc --optimize_for_size ",
+    "max_memory_restart": "600M",
+    "watch": false,
+    "merge_logs": true,
+    "autorestart": true,
+    "error_file": "logs/pm2/pm2.error.log",
+    "out_file": "logs/pm2/pm2.stdout.log",
+    "pid_file": "logs/pids/pm2.pid",
+    "env": {},
+    "env_inner.test": {
+      "PORT": 5000,
+      "NODE_ENV": "dev"
+    },
+    "env_outer.test": {
+      "PORT": 5000,
+      "NODE_ENV": "dev"
+    },
+    "env_production": {
+      "PORT": 5000,
+      "NODE_ENV": "production"
+    }
+  }, {
+    "name": "yqj-wit-work:5001",
+    "exec_mode": "fork_mode",
+    "cwd": ".",
+    "script": "server.js",
+    "node_args": "--expose-gc --optimize_for_size ",
+    "max_memory_restart": "600M",
+    "watch": false,
+    "merge_logs": true,
+    "autorestart": true,
+    "error_file": "logs/pm2/pm2.error.log",
+    "out_file": "logs/pm2/pm2.stdout.log",
+    "pid_file": "logs/pids/pm2.pid",
+    "env": {},
+    "env_inner.test": {
+      "PORT": 5001,
+      "NODE_ENV": "dev"
+    },
+    "env_outer.test": {
+      "PORT": 5001,
+      "NODE_ENV": "dev"
+    },
+    "env_production": {
+      "PORT": 5001,
+      "NODE_ENV": "production"
+    }
+  }, {
+    "name": "yqj-wit-work:5002",
+    "exec_mode": "fork_mode",
+    "cwd": ".",
+    "script": "server.js",
+    "node_args": "--expose-gc --optimize_for_size ",
+    "max_memory_restart": "600M",
+    "watch": false,
+    "merge_logs": true,
+    "autorestart": true,
+    "error_file": "logs/pm2/pm2.error.log",
+    "out_file": "logs/pm2/pm2.stdout.log",
+    "pid_file": "logs/pids/pm2.pid",
+    "env": {
+
+    },
+    "env_inner.test": {
+      "PORT": 5002,
+      "NODE_ENV": "dev"
+    },
+    "env_outer.test": {
+      "PORT": 5002,
+      "NODE_ENV": "dev"
+    },
+    "env_production": {
+      "PORT": 5002,
+      "NODE_ENV": "production"
+    }
+  }],
+  "deploy": {
+    "inner.test": {
+      "user": "maintain",
+      "host": ["10.0.0.200"],
+      "ref": "origin/dev",
+      "repo": "http://zhaoyiming:19842895@internal.yiqijiao.cn:8412/gitblit/r/yqj-wit-work.git",
+      "path": "/var/www/yqj-wit-work",
+      "ssh_options": "StrictHostKeyChecking=no",
+      "post-setup": " scripts/pm2-hooks/post-setup.sh inner.test",
+      "post-deploy": "scripts/pm2-hooks/post-deploy.sh inner.test /var/www/yqj-wit-work",
+      "env": {
+        "NODE_ENV": "dev"
+      }
+    },
+    "outer.test": {
+      "user": "deploy",
+      "host": [{ "host": "120.26.211.239", "port": "5522" }],
+      "ref": "origin/dev",
+      "repo": "http://zhaoyiming:19842895@internal.yiqijiao.cn:8412/gitblit/r/yqj-wit-work.git",
+      "path": "/var/www/yqj-wit-work",
+      "ssh_options": "StrictHostKeyChecking=no",
+      "post-setup": " scripts/pm2-hooks/post-setup.sh outer.test",
+      "post-deploy": "scripts/pm2-hooks/post-deploy.sh outer.test /var/www/yqj-wit-work",
+      "env": {
+        "NODE_ENV": "dev"
+      }
+    },
+    "production": {
+      "user": "deploy",
+      "host": ["112.124.106.207"],
+      "ref": "origin/dev",
+      "repo": "http://zhaoyiming:19842895@internal.yiqijiao.cn:8412/gitblit/r/yqj-wit-work.git",
+      "path": "/var/www/yqj-wit-work",
+      "ssh_options": "StrictHostKeyChecking=no",
+      "post-setup": " scripts/pm2-hooks/post-setup.sh production",
+      "post-deploy": "scripts/pm2-hooks/post-deploy.sh production /var/www/yqj-wit-work",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
+

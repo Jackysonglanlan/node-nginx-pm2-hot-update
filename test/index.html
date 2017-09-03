@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+</head>
+
+<style type="text/css">
+.centerBox {
+  position: fixed;
+  left: 50%;
+  width: 60%;
+  -webkit-transform: translate(-50%, 0);
+  word-break: break-word;
+}
+
+table {
+  width: 100%;
+  font-size: 2em;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #eeeeee
+}
+
+
+/* key */
+
+tbody tr > td:nth-child(1) {
+  text-align: center;
+  width: 30%;
+}
+
+
+/* value */
+
+tbody tr > td:nth-child(2) {
+  text-align: center;
+}
+
+.tooLongValue {
+  text-align: center;
+  font-size: 0.5em;
+  font-weight: bold;
+}
+
+</style>
+
+<body>
+
+  <h1 style="color: gray">Backend nodes info response passed by <em style="color: red">nginx with load balance </em>: </h1>
+
+  <div class="centerBox">
+    <table>
+      <tbody>
+        <tr>
+          <td>Name </td>
+          <td id="info.name">Waiting</td>
+        </tr>
+        <tr>
+          <td>Version </td>
+          <td id="info.version"> Waiting</td>
+        </tr>
+        <tr>
+          <td>Git Commit </td>
+          <td class="tooLongValue" id="info.gitInfo">Waiting</td>
+        </tr>
+        <tr>
+          <td>Bind IP </td>
+          <td id="info.nodeIP">Waiting</td>
+        </tr>
+        <tr>
+          <td>PID </td>
+          <td id="info.nodePID">Waiting</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!--
+  <form action="/api/dev/demo.dev/error" enctype="multipart/form-data" method="post">
+    <input type="text" name="title">
+    <br>
+    <input type="file" name="upload" multiple="multiple">
+    <br>
+    <input type="submit" value="Upload">
+  </form> -->
+
+</body>
+
+<script type="text/javascript">
+'use strict';
+
+function _ajaxReq() {
+  return new XMLHttpRequest();
+}
+
+function _getBackendRespThenShow(url) {
+  const ajax = _ajaxReq();
+  ajax.onreadystatechange = () => {
+    if (ajax.readyState !== 4) {
+      return;
+    }
+
+    const info = JSON.parse(ajax.responseText).data;
+
+    Object.keys(info).forEach((propName) => {
+      document.getElementById('info.' + propName).innerHTML = info[propName];
+    });
+  };
+
+  ajax.open('GET', url, true);
+  ajax.send(null);
+}
+
+function getBackendInfo() {
+  setInterval(() => {
+    _getBackendRespThenShow('api/dev/debug/load-balance');
+  }, 1000);
+}
+
+getBackendInfo();
+
+</script>
+
+</html>
+

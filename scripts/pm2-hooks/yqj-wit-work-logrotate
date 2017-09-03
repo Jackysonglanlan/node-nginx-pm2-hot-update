@@ -1,0 +1,65 @@
+
+############
+# 用于生产环境
+############
+
+# /usr/sbin/logrotate – The logrotate command itself.
+# /etc/cron.daily/logrotate – This shell script executes the logrotate command everyday.
+
+# How-To use:
+#
+# Move this file to /etc/logrotate.d/
+#
+# Run script to test:
+#   /usr/sbin/logrotate -s ./logstatus -vdf /etc/logrotate.d/nginx-logrotate
+#
+# "-s", specifies the filename to write the logrotate status.
+# “-v”, tells logrotate to say what it’s doing while it’s doing it. It’s very useful when trying to find out why logrotate doesn’t rotate a log when you want it to.
+# “-d”, tells logrotate to go through the motions of rotating logs but not actually rotate them.
+# “-f”, forces logrotate to rotate all logs when it runs, whether or not they would normally need to be rotated at that time. If you want to thoroughly test logrotate’s configs this is the flag to use. Just remember that logrotate will be rotating logs and deleting old ones according to the configuration you’ve set up, so don’t accidentally rotate out a recent log you needed to keep.
+
+# 所有日志都在 logs 文件夹下, 见 nginx-conf.production.json 的 settings.logs 和 ecosystem.json 的 apps.{out,error}_file
+
+/var/www/yqj-wit-work/current/logs/*.log /var/www/yqj-wit-work/current/logs/error/*.log /var/www/yqj-wit-work/current/logs/nginx/*.log /var/www/yqj-wit-work/current/logs/pm2/*.log{
+  # 每天轮询
+  daily
+
+  # 保留 14 天
+  rotate 14
+
+  # 日志文件最大 5M
+  size 5M
+
+  # creates the copy of the original file and truncates the original file to zero byte size
+  copytruncate
+
+  # 如果日志丢失，不报错继续滚动下一个日志
+  missingok
+
+  # 当日志为空时不进行滚动
+  notifempty
+
+  # 在文件末尾添加当前日期
+  dateext
+
+  # 通过gzip 压缩转储以后的日志
+  compress
+
+  compressext .gz
+
+  # 和 compress 一起使用时，转储的日志文件到下一次转储时才压缩
+  # delaycompress
+
+  # automatically removes the rotated files after a specific number of days
+  # maxage 14
+
+  # 运行 postrotate 脚本
+  sharedscripts
+
+  #  脚本内容，给 NGINX 发信号要求重新生成日志，如果 nginx 没起来就不操作
+  postrotate
+  if [ -f /var/www/yqj-wit-work/current/logs/pids/nginx.pid ]; then
+    kill -USR1 `cat /var/www/yqj-wit-work/current/logs/pids/nginx.pid`
+  fi
+  endscript
+}

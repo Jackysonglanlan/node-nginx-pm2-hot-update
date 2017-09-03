@@ -1,0 +1,25 @@
+{
+  "settings": {
+    "conf": "ROOT_DIR/test/generated-files/site_foo.conf",
+    "overrides": "ROOT_DIR/test/generated-files",
+    "logs": "ROOT_DIR/test/generated-files",
+    "pid": "ROOT_DIR/test/foo.nginx.pid",
+    "start": "nginx -c ROOT_DIR/test/generated-files/site_foo.conf",
+    "restart": "nginx -s reload -c ROOT_DIR/test/generated-files/site_foo.conf",
+    "bind": "*",
+    "template": "ROOT_DIR/test/configs/template.conf"
+  },
+  "sites": [{
+    "shortname": "site_foo",
+    "host": "127.0.0.1",
+    "port": 3000,
+    "backends": ["localhost:5001", "localhost:5002", "localhost:5000"],
+    "static": "ROOT_DIR/test",
+    "autoindex": false,
+    "access_control_allow_origin": "$http_origin",
+    "https": false,
+    "ssl_certificate": "foo.cert",
+    "ssl_certificate_key": "foo.key"
+  }]
+}
+

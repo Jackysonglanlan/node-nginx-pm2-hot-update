@@ -1,0 +1,25 @@
+{
+  "settings": {
+    "conf": "ROOT_DIR/tmp/nginx/site_bar.conf",
+    "overrides": "ROOT_DIR/tmp/nginx",
+    "logs": "ROOT_DIR/tmp/nginx",
+    "pid": "ROOT_DIR/tmp/nginx/bar.nginx.pid",
+    "start": "nginx -c ROOT_DIR/tmp/nginx/site_bar.conf",
+    "restart": "nginx -s reload -c ROOT_DIR/tmp/nginx/site_bar.conf",
+    "bind": "*",
+    "template": "production-only/nginx/mechanic/config/template.conf"
+  },
+  "sites": [{
+    "shortname": "site_bar",
+    "host": "127.0.0.1",
+    "port": 6000,
+    "backends": ["localhost:5001", "localhost:5002", "localhost:5000"],
+    "static": "ROOT_DIR/production-only/nginx/static",
+    "autoindex": false,
+    "access_control_allow_origin": "$http_origin",
+    "https": false,
+    "ssl_certificate": "foo.cert",
+    "ssl_certificate_key": "foo.key"
+  }]
+}
+
