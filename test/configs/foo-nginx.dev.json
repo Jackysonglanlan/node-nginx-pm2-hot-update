@@ -1,16 +1,16 @@
 {
   "settings": {
-    "conf": "ROOT_DIR/test/generated-files/site_foo.conf",
+    "conf": "ROOT_DIR/test/generated-files/foo.conf",
     "overrides": "ROOT_DIR/test/generated-files",
     "logs": "ROOT_DIR/test/generated-files",
     "pid": "ROOT_DIR/test/foo.nginx.pid",
-    "start": "nginx -c ROOT_DIR/test/generated-files/site_foo.conf",
-    "restart": "nginx -s reload -c ROOT_DIR/test/generated-files/site_foo.conf",
+    "start": "nginx -c ROOT_DIR/test/generated-files/foo.conf",
+    "restart": "nginx -s reload -c ROOT_DIR/test/generated-files/foo.conf",
     "bind": "*",
     "template": "ROOT_DIR/test/configs/template.conf"
   },
   "sites": [{
-    "shortname": "site_foo",
+    "shortname": "foo",
     "host": "127.0.0.1",
     "port": 3000,
     "backends": ["localhost:5001", "localhost:5002", "localhost:5000"],
