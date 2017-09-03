@@ -4,8 +4,8 @@
 #
 
 _start(){
-  # node ./node_modules/.bin/pm2 start ecosystem.json --env production
-  node test/mock-server.js
+  node ./node_modules/.bin/pm2 start test/configs/ecosystem.json --env dev
+  # PORT=5000 node test/mock-server.js
 }
 
 ##### run #####
@@ -15,7 +15,7 @@ main(){
 }
 
 
-# main
+main
 
 
 

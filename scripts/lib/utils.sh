@@ -111,6 +111,8 @@ use_red_green_echo() {
 
 ##### common #####
 
+## string split
+# IFS=',' read -r -a param <<< "$string_to_split"
 
 ##### npm #####
 

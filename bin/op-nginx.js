@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-// COPY this file to project's .bin dir!
-
 /**
  * 基于 https://github.com/punkave/mechanic 修改
  *
@@ -12,7 +10,6 @@
 
 'use strict';
 
-const _ = require('lodash');
 const argv = require('../lib/boring')();
 const fs = require('fs');
 const shelljs = require('shelljs');
@@ -39,7 +36,7 @@ function _loadConfigData() {
   const cfgDataFile = argv.config;
 
   if (!cfgDataFile) {
-    throw new Error('Must set cfgDataFile using --config');
+    throw new Error('Must set config file using --config');
   }
 
   const config = require(`${ROOT_DIR}/${cfgDataFile}`);
@@ -61,7 +58,7 @@ const cmds = {};
 
 cmds.setup = function() {
   const config = _loadConfigData();
-  const sites = _.filter(config.sites, site => {
+  const sites = config.sites.filter(site => {
     if (!(site.backends && site.backends.length) && !site.static) {
       _log(
         'WARNING: skipping ' + site.shortname + ' because no backends have been specified (hint: --backends=portnumber)'
@@ -79,7 +76,7 @@ cmds.setup = function() {
 
   // Set up include-able files to allow
   // easy customizations
-  _.each(sites, function(site) {
+  sites.forEach(function(site) {
     let folder = config.settings.overrides;
     if (!fs.existsSync(folder)) {
       fs.mkdirSync(folder);
@@ -89,7 +86,7 @@ cmds.setup = function() {
       fs.mkdirSync(folder);
     }
     const files = ['location', 'proxy', 'server', 'top'];
-    _.each(files, function(file) {
+    files.forEach(function(file) {
       const filename = folder + '/' + file;
       if (!fs.existsSync(filename)) {
         fs.writeFileSync(filename, '# Your custom nginx directives go here\n');
@@ -189,14 +186,17 @@ const options = {
 cmds.listConfigs = function() {
   const config = _loadConfigData();
 
-  _.each(config.settings, function(val, key) {
+  Object.keys(config.settings).forEach(function(key) {
+    const val = config.settings[key];
     _log(shellEscape(['mechanic', 'set', key, val]));
   });
-  _.each(config.sites, function(site) {
+
+  config.sites.forEach(function(site) {
     const words = ['mechanic', 'add', site.shortname];
-    _.each(site, function(val, key) {
-      if (_.has(stringifiers, options[key])) {
-        words.push('--' + key + '=' + stringifiers[options[key]](val));
+    Object.keys(site).forEach(function(key) {
+      const optionKey = options[key];
+      if (stringifiers[optionKey]) {
+        words.push('--' + key + '=' + stringifiers[optionKey](site[key]));
       }
     });
     _log(shellEscape(words));

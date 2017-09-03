@@ -7,4 +7,12 @@ const server = http.createServer((req, res) => {
   res.end('yahhhhh');
 });
 
-server.listen(8000);
+const port = process.env.PORT;
+
+console.log(`server listen to ${port}`);
+
+if (!port) {
+  throw new Error('Must set env PORT');
+}
+
+server.listen(port);

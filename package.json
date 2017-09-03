@@ -1,35 +1,42 @@
 {
-  "name": "node-template",
+  "name": "node-hot-update",
   "version": "1.0.0",
   "description": "TODO",
+  "author": {
+    "name": "Jackysonglanlan",
+    "email": "jackysonglanlan@gmail.com",
+    "url": "https://github.com/Jackysonglanlan"
+  },
+  "bin": {
+    "op-nginx": "bin/op-nginx.js",
+    "op-hot-update": "bin/op-hot-update.sh"
+  },
   "scripts": {
-    "install": "ln -s bin/op-nginx.js node_modules/.bin/op-nginx",
+    "//--------------------------------------- HOOKs ------------------------------------------------": "",
+    "//install": "cd node_modules/.bin && ln -s ../../bin/op-nginx.js op-nginx && ln -s ../../bin/op-hot-update.sh op-hot-update",
     "//--------------------------------------- TEST ------------------------------------------------": "",
     "test-start-backend": "test/start.sh",
-    "//-------------- 1st time deploy, you need use: npm run deploy-to-ENV -- setup --------------": "",
     "test-deploy": "pm2 deploy test",
     "test-op-nginx-foo-start": "bin/op-nginx.js start --config=test/configs/foo-nginx.dev.json",
     "test-op-nginx-foo-reload": "bin/op-nginx.js reload --config=test/configs/foo-nginx.dev.json",
-    "test-op-nginx-foo-upstream-to": "bin/op-nginx.js upstreamTo --config=test/configs/foo-nginx.dev.json",
-    "//------------------------------------ OPERATION ---------------------------------------------": "",
-    "op-seamless-update-be-ready": "scripts/op-seamless-update.sh prod readyForUpdate",
-    "op-seamless-update-start": "scripts/op-seamless-update.sh prod startUpdate",
+    "test-op-nginx-foo-upstream-to-5000-5001": "bin/op-nginx.js upstreamTo --config=test/configs/foo-nginx.dev.json --site=foo --backends=localhost:5001,localhost:5002",
+    "test-op-hot-update-prepare": "NODE_ENV=dev op-hot-update prepare test/configs/foo-nginx.dev.json foo localhost:5000",
+    "test-op-hot-update-start": "NODE_ENV=dev op-hot-update start test/configs/foo-nginx.dev.json foo foo:5000=localhost:5000 foo:5001=localhost:5001,foo:5002=localhost:5002",
     "//------------------------------------ scripts END --------------------------------------------": ""
   },
   "//---------------------------------- DEPENDENCIES_DESC ------------------------------------------": "",
   "// 所有 yqj- 开头的都是自定义Module": "",
   "//-------------------------------- DEPENDENCIES_DESC END ----------------------------------------": "",
-  "//bluebird": "promise 框架",
-  "//lodash": "js utils",
   "//nunjucks": "代码生成模板",
   "dependencies": {
-    "bluebird": "3.4.7",
-    "lodash": "4.17.4",
     "nunjucks": "3.0.0",
-    "pm2": "2.4.6",
     "shelljs": "0.7.7"
   },
   "devDependencies": {
     "prettier": "1.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jackysonglanlan/node-nginx-pm2-hot-update.git"
   }
 }
