@@ -11,7 +11,7 @@
   },
   "sites": [{
     "shortname": "foo",
-    "backend_server_upstream_location": "~ /api/",
+    "backend_server_upstream_location": "~ ^/((order|good)/)|(health)|(swagger)",
     "host": "127.0.0.1",
     "port": 3000,
     "backends": ["localhost:5001", "localhost:5002", "localhost:5000"],
